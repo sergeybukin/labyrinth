@@ -1,0 +1,21 @@
+table td {
+    border: 2px solid #D1D1D1;
+    width: 70px;
+    height: 70px;
+    text-align: center;
+    transition: 0.5s;
+}
+
+.start {
+    background: #DFF0FD;
+}
+.start::after {
+    content: 'Start';
+}
+
+.finish {
+    background: #D3E5D2;
+}
+.finish::after {
+    content: 'Finish';
+}

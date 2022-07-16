@@ -4,23 +4,7 @@ body {
     background: #E5E5E5;
 }
 .app {
-    margin: auto;
+    margin: 100px auto;
     width: fit-content;
     min-width: 320px;
-}
-
-table {
-    margin: 20px auto;
-    border: 2px solid #D1D1D1;
-    border-collapse: collapse;
-}
-table td {
-    border: 2px solid #D1D1D1;
-    width: 100px;
-    height: 100px;
-    text-align: center;
-}
-
-.end {
-    background: tomato;
 }

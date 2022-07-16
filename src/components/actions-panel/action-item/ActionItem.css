@@ -1,0 +1,11 @@
+.action-item {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #DFF0FD;
+    border-radius: 10px;
+    box-shadow: black 5px -5px;
+}
+
