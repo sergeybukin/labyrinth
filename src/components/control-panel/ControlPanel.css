@@ -1,0 +1,39 @@
+.control-panel {
+    margin: 20px auto;
+}
+.helper {
+    color: tomato;
+}
+
+.btn-blue {
+    background: #DFF0FD;
+}
+.btn-green {
+    background: #D3E5D2;
+}
+button {
+    font: inherit;
+    color: inherit;
+    padding: 5px 20px;
+    margin: 10px;
+    border: none;
+    font-weight: bold;
+    box-shadow: black 5px -5px;
+}
+button:active {
+    transform: scale(0.95);
+}
+input {
+    font: inherit;
+    padding: 5px 10px;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+    background: #E5E5E5;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
