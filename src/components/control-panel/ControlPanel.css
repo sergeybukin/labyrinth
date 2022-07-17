@@ -1,8 +1,6 @@
 .control-panel {
     margin: 20px auto;
-}
-.helper {
-    color: tomato;
+    width: fit-content;
 }
 
 .btn-blue {
@@ -23,22 +21,14 @@ button {
 button:active {
     transform: scale(0.95);
 }
-input {
-    font: inherit;
-    padding: 5px 10px;
-    border: none;
-    border-bottom: 2px solid black;
-    outline: none;
-    background: #E5E5E5;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
 
 .score {
-    margin-left: 40px;
+    margin-right: 40px;
     font-size: 30px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
 }

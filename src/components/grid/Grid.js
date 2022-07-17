@@ -1,38 +1,47 @@
 import "./Grid.css";
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectLabyrinth,
-  setShowAnswer,
-} from "../../redux/slices/labyrinthSlice";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectLabyrinth } from "../../redux/slices/labyrinthSlice";
 import { Cell } from "./cell";
 
 export const Grid = () => {
-  const { array, startCell, actionsArr } = useSelector(selectLabyrinth);
-  const dispatch = useDispatch();
+  const [showAnswer, setShowAnswer] = useState(false);
+  const { gridsArray, startCell, actionsArr } = useSelector(selectLabyrinth);
 
   const onTableClick = () => {
     if (actionsArr.length) {
-      dispatch(setShowAnswer(true));
+      setShowAnswer(true);
     }
   };
 
+  useEffect(() => {
+    setShowAnswer(false);
+  }, [startCell]);
+
   const drawGrids = useCallback(() => {
     const rows = [];
-    array.forEach((a, x) => {
+    gridsArray.forEach((a, x) => {
       const grids = [];
       a.forEach((b, y) => {
         const isStart = x === startCell[0] && y === startCell[1];
         const classList = isStart ? "start" : "";
         const key = `${x}${y}`;
-        grids.push(<Cell x={x} y={y} classList={classList} key={key} />);
+        grids.push(
+          <Cell
+            showAnswer={showAnswer}
+            x={x}
+            y={y}
+            classList={classList}
+            key={key}
+          />
+        );
       });
 
       rows.push(<tr key={x}>{grids}</tr>);
     });
 
     return rows;
-  }, [array, startCell]);
+  }, [gridsArray, startCell, showAnswer]);
 
   return (
     <table onClick={onTableClick}>

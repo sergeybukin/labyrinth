@@ -3,99 +3,92 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectLabyrinth,
-  setHelper,
   setActionsArr,
   setFinishCell,
   setSize,
-  setShowAnswer,
   setStartCell,
 } from "../../redux/slices/labyrinthSlice";
-import { getRandom } from "../../utils";
+import { getRandom, moveTo, findAvailableDirections } from "../../utils";
+import { InputField } from "./input-field";
+import { useCreateArray } from "../../utils/hooks/useCreateArray";
 
-export const ControlPanel = ({ onSetSize }) => {
+export const ControlPanel = () => {
   const actionsAmount = 10;
-  const directions = ["top", "left", "right", "down"];
   const sizeRange = { min: 3, max: 20 };
-  const [value, setValue] = useState("");
-  const [buttonLabel, setButtonLabel] = useState("Start");
-  const { helper, size, score } = useSelector(selectLabyrinth);
+  const [sizeValue, setSizeValue] = useState("");
+  const [gridSizeInputError, setGridSizeInputError] = useState(false);
+  const [buttonStartLabel, setButtonStartLabel] = useState("Start game");
+  const { size, score } = useSelector(selectLabyrinth);
   const dispatch = useDispatch();
+  useCreateArray();
 
   const onInputChange = (event) => {
-    dispatch(setHelper(false));
-    setValue(event.target.value);
+    setGridSizeInputError(false);
+    setSizeValue(event.target.value);
   };
 
-  const onSet = (e) => {
+  const onSetGridSize = (e) => {
     if (e.key === "Enter" || e.type === "click") {
-      if (value < sizeRange.min || value > sizeRange.max) {
-        dispatch(setHelper(true));
+      if (sizeValue < sizeRange.min || sizeValue > sizeRange.max) {
+        setGridSizeInputError(true);
       } else {
-        onSetSize(Number(value));
-        dispatch(setSize(Number(value)));
-        setValue("");
+        const numValue = Number(sizeValue);
+        dispatch(setSize(numValue));
+        setSizeValue("");
       }
       dispatch(setActionsArr([]));
     }
   };
 
-  const move = (dir, coo) => {
-    switch (dir) {
-      case "top":
-        return [coo[0] - 1, coo[1]];
-      case "left":
-        return [coo[0], coo[1] - 1];
-      case "right":
-        return [coo[0], coo[1] + 1];
-      case "down":
-        return [coo[0] + 1, coo[1]];
-      default:
-        return [0, 0];
+  const generateDirections = (startCell) => {
+    const actions = [];
+    let newFinishCell = startCell;
+    for (let i = 0; i < actionsAmount; i++) {
+      const directions = findAvailableDirections(newFinishCell, size);
+      const currDirection = directions[getRandom(0, directions.length - 1)];
+      actions.push(currDirection);
+      newFinishCell = moveTo(currDirection, newFinishCell);
     }
+
+    return { actions, newFinishCell };
   };
 
   const onStart = () => {
-    dispatch(setShowAnswer(false));
-    setButtonLabel("Try again");
+    setButtonStartLabel("Try again");
     const newStartCell = [getRandom(0, size - 1), getRandom(0, size - 1)];
     dispatch(setStartCell(newStartCell));
-    const actions = [];
-    let newFinishCell = [...newStartCell];
-    for (let i = 0; i < actionsAmount; i++) {
-      const direction = directions[getRandom(0, directions.length - 1)];
-      if (!move(direction, newFinishCell).some((e) => e + 1 > size || e < 0)) {
-        actions.push(direction);
-        newFinishCell = move(direction, newFinishCell);
-      } else {
-        i--;
-      }
-    }
+    const { actions, newFinishCell } = generateDirections(newStartCell);
     dispatch(setActionsArr(actions));
     dispatch(setFinishCell(newFinishCell));
   };
 
+  const gridSizeErrorLabel =
+    gridSizeInputError &&
+    `The size must be more than ${sizeRange.min} and less than ${sizeRange.max}`;
+
   return (
     <div className={"control-panel"}>
-      <input
-        type={"number"}
-        placeholder={"Type grid size"}
-        onChange={onInputChange}
-        value={value}
-        onKeyDown={onSet}
-      />
-      <button className={"btn-blue"} onClick={onSet}>
-        Set
-      </button>
-      <button className={"btn-green"} onClick={onStart}>
-        {buttonLabel}
-      </button>
-      <span className={"score"}>{score}</span>
-      {helper && (
-        <div className={"helper"}>
-          The size must be more than {sizeRange.min} and less than{" "}
-          {sizeRange.max}
-        </div>
-      )}
+      <div className={"wrapper"}>
+        <InputField
+          placeholder={"Type grid size"}
+          type={"number"}
+          id={"grid-size"}
+          error={gridSizeErrorLabel}
+          onChange={onInputChange}
+          value={sizeValue}
+          onKeyDown={onSetGridSize}
+        >
+          <button className={"btn-blue"} onClick={onSetGridSize}>
+            Set grid size
+          </button>
+        </InputField>
+      </div>
+      <div className={"wrapper"}>
+        <div className={"score"}>Wins: {score}</div>
+        <button className={"btn-green"} onClick={onStart}>
+          {buttonStartLabel}
+        </button>
+      </div>
     </div>
   );
 };

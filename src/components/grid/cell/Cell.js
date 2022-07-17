@@ -5,8 +5,8 @@ import {
 } from "../../../redux/slices/labyrinthSlice";
 import "./Cell.css";
 import { useState } from "react";
-export const Cell = ({ x, y, classList }) => {
-  const { finishCell, showAnswer, score } = useSelector(selectLabyrinth);
+export const Cell = ({ x, y, classList, showAnswer }) => {
+  const { finishCell, score } = useSelector(selectLabyrinth);
   const [styles, setStyles] = useState({});
   const dispatch = useDispatch();
 

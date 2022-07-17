@@ -2,23 +2,16 @@ import "./ActionItem.css";
 import { useEffect, useState } from "react";
 
 export const ActionItem = ({ direction, i }) => {
-  const directions = {
-    left: 270,
-    top: 0,
-    right: 90,
-    down: 180,
-  };
   const [opacity, setOpacity] = useState(0);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setOpacity(1);
-    }, 500 * i);
+    }, 200 * i);
     return () => clearTimeout(timeout);
   }, []);
 
   const styles = {
-    transform: `rotate(${directions[direction]}deg)`,
     opacity: opacity,
     transition: "1s",
   };
@@ -26,6 +19,7 @@ export const ActionItem = ({ direction, i }) => {
   return (
     <div className={"action-item"}>
       <svg
+        className={`arrow-${direction}`}
         style={styles}
         width="50"
         height="50"

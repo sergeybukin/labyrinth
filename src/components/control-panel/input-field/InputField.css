@@ -1,0 +1,22 @@
+.input-field {
+    height: 30px;
+    margin: 50px 0;
+}
+.input-field input {
+    font: inherit;
+    padding: 5px 10px;
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+    background: #E5E5E5;
+}
+
+.input-field input::-webkit-outer-spin-button,
+.input-field input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.input-error {
+    line-height: 10px;
+    color: tomato;
+}

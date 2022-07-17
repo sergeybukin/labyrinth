@@ -4,20 +4,18 @@ export const labyrinthSlice = createSlice({
   name: "labyrinth",
   initialState: {
     size: 6,
-    array: [[]],
+    gridsArray: [[]],
     startCell: [],
     finishCell: [0, 0],
-    helper: false,
     actionsArr: [],
-    showAnswer: false,
     score: 0,
   },
   reducers: {
     setSize: (state, action) => {
       state.size = action.payload;
     },
-    setArray: (state, action) => {
-      state.array = action.payload;
+    setGridsArray: (state, action) => {
+      state.gridsArray = action.payload;
     },
     setStartCell: (state, action) => {
       state.startCell = action.payload;
@@ -26,14 +24,8 @@ export const labyrinthSlice = createSlice({
     setFinishCell: (state, action) => {
       state.finishCell = action.payload;
     },
-    setHelper: (state, action) => {
-      state.helper = action.payload;
-    },
     setActionsArr: (state, action) => {
       state.actionsArr = action.payload;
-    },
-    setShowAnswer: (state, action) => {
-      state.showAnswer = action.payload;
     },
     setScore: (state, action) => {
       state.score = action.payload;
@@ -43,19 +35,13 @@ export const labyrinthSlice = createSlice({
 
 export const {
   setSize,
-  setArray,
+  setGridsArray,
   setStartCell,
-  setHelper,
   setActionsArr,
   setFinishCell,
-  setShowAnswer,
   setScore,
 } = labyrinthSlice.actions;
 
 export const selectLabyrinth = (state) => state.labyrinth;
-
-export const orderUsers = (size) => (dispatch) => {
-  dispatch(setSize(size));
-};
 
 export default labyrinthSlice.reducer;

@@ -9,3 +9,16 @@
     box-shadow: black 5px -5px;
 }
 
+.arrow-left {
+    transform: rotate(270deg);
+}
+.arrow-right {
+    transform: rotate(90deg);
+}
+.arrow-top {
+    transform: rotate(0deg);
+}
+.arrow-down {
+    transform: rotate(180deg);
+}
+
